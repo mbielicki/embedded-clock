@@ -30,21 +30,21 @@ ButtonController buttonController(8, 9, 10, CYCLE_TIME);
 AlarmSetter alarmSetter(&lcd);
 
 
-SoftwareSerial gpsSs(4, 5);
-Gps gps(gpsSs);
+SoftwareSerial gpsSs(5, 4);
+Gps gps(&gpsSs);
 
 void setup() {
   pinMode(BUZZER, OUTPUT);
   Serial.begin(9600);
-  Serial.println("1");
 
   rtc.Begin();
   validateRtc();
 
-  Serial.println("2");
-  if (gps.waitForTime(15000)) {
+  if (gps.waitForTime(25 * 1000)) {
     RtcDateTime dateTime = RtcDateTime(__DATE__, gps.usTimeStr.c_str());
     rtc.SetDateTime(dateTime);
+  } else {
+    Serial.println("GPS did not work.");
   }
 
   

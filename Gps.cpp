@@ -1,6 +1,6 @@
 #include "Gps.h"
 
-Gps::Gps(SoftwareSerial& ss) {
+Gps::Gps(SoftwareSerial* ss) {
   this->ss = ss;
   gpsData = ' ';
   charNo = 0;
@@ -33,7 +33,7 @@ void Gps::readTimeStr() {
   minutes = timeStr.substring(2, 4).toInt();
   Serial.println();
   Serial.println("******");
-  Serial.print("Time: ");
+  Serial.print("GPS Time: ");
   Serial.print(hours);
   Serial.print(":");
   Serial.println(minutes);
@@ -44,15 +44,17 @@ void Gps::readTimeStr() {
 
 
 bool Gps::waitForTime(int maxTime) {
-  ss.begin(9600);
-  Serial.println("Loading...");
+  ss->begin(9600);
+  Serial.println("Loading GPS time...");
 
   unsigned long startTime = millis();
 
+        int i = 0;
   while (millis() - startTime < maxTime) {
-    if (ss.available()) {
-      gpsData = ss.read();
-      Serial.print(gpsData);
+    if (ss->available()) {
+      gpsData = ss->read();
+      if (i++ % 4 == 0)
+        Serial.print(gpsData);
       processGpsTime(gpsData);
       if(success) {
         usTimeStr = "";

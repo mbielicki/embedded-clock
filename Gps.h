@@ -9,7 +9,7 @@ class Gps {
   int charNo = 0;
   char gpsData = ' ';
   String timeStr = "";
-  SoftwareSerial& ss;
+  SoftwareSerial* ss;
   void processGpsTime(char gpsChar);
   void readTimeStr();
   bool success = false;
@@ -17,6 +17,6 @@ class Gps {
 public:
   int hours, minutes;
   String usTimeStr = "";
-  Gps(SoftwareSerial& ss);
+  Gps(SoftwareSerial* ss);
   bool waitForTime(int maxTime);
 };
