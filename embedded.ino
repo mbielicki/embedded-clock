@@ -31,7 +31,7 @@ AlarmSetter alarmSetter(&lcd);
 
 
 SoftwareSerial gpsSs(5, 4);
-Gps gps(&gpsSs);
+Gps gps(&gpsSs, &lcd);
 
 void setup() {
   pinMode(BUZZER, OUTPUT);
@@ -43,17 +43,14 @@ void setup() {
   lcd.init();
   lcd.backlight();
 
-  lcd.print("Getting GPS time");
-
   if (gps.waitForTime(25 * 1000)) {
     RtcDateTime dateTime = RtcDateTime(__DATE__, gps.usTimeStr.c_str());
     rtc.SetDateTime(dateTime);
-    lcd.setCursor(4, 1);
-    lcd.print("Success");
-    delay(500);
-    lcd.clear();
   } else {
-    Serial.println("GPS did not work.");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("GPS did not work");
+    delay(500);
   }
 
   alarmSetter.loadAlarmFromEEPROM();

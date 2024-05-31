@@ -1,7 +1,8 @@
 #include "Gps.h"
 
-Gps::Gps(SoftwareSerial* ss) {
+Gps::Gps(SoftwareSerial* ss, LiquidCrystal_I2C* lcd) {
   this->ss = ss;
+  this->lcd = lcd;
   gpsData = ' ';
   charNo = 0;
   timeStr = "";
@@ -31,21 +32,26 @@ void Gps::readTimeStr() {
   hours = timeStr.substring(0, 2).toInt();
   hours += 2; // UTC+2
   minutes = timeStr.substring(2, 4).toInt();
-  Serial.println();
-  Serial.println("******");
-  Serial.print("GPS Time: ");
-  Serial.print(hours);
-  Serial.print(":");
-  Serial.println(minutes);
-  Serial.println("******");
-  if (hours >= 0 && hours <= 24 && minutes >= 0 && minutes < 60)
+  if (hours >= 0 && hours <= 24 && minutes >= 0 && minutes < 60) {
     success = true;
+    lcd->clear();
+    lcd->setCursor(4, 0);
+    lcd->print("Success");
+    lcd->setCursor(4, 1);
+    if (hours < 10) lcd->print('0');
+    lcd->print(hours);
+    lcd->print(':');
+    if (minutes < 10) lcd->print('0');
+    lcd->print(minutes);
+    delay(500);
+    lcd->clear();
+  }
 }
 
 
 bool Gps::waitForTime(int maxTime) {
   ss->begin(9600);
-  Serial.println("Loading GPS time...");
+  lcd->print("Getting GPS time");
 
   unsigned long startTime = millis();
 
@@ -53,8 +59,10 @@ bool Gps::waitForTime(int maxTime) {
   while (millis() - startTime < maxTime) {
     if (ss->available()) {
       gpsData = ss->read();
-      if (i++ % 4 == 0)
-        Serial.print(gpsData);
+      if (i++ % 16 == 0) {
+        lcd->setCursor(0, 1);
+        lcd->print(gpsData);
+      }
       processGpsTime(gpsData);
       if(success) {
         usTimeStr = "";
