@@ -39,21 +39,26 @@ void setup() {
 
   rtc.Begin();
   validateRtc();
+  
+  lcd.init();
+  lcd.backlight();
+
+  lcd.print("Getting GPS time");
 
   if (gps.waitForTime(25 * 1000)) {
     RtcDateTime dateTime = RtcDateTime(__DATE__, gps.usTimeStr.c_str());
     rtc.SetDateTime(dateTime);
+    lcd.setCursor(4, 1);
+    lcd.print("Success");
+    delay(500);
+    lcd.clear();
   } else {
     Serial.println("GPS did not work.");
   }
 
-  
-
   alarmSetter.loadAlarmFromEEPROM();
   buttonController.begin();
 
-  lcd.init();
-  lcd.backlight();
 
   sensors.begin();
 }
