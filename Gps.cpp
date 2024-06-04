@@ -55,7 +55,7 @@ bool Gps::waitForTime(int maxTime) {
 
   unsigned long startTime = millis();
 
-        int i = 0;
+  int i = 0;
   while (millis() - startTime < maxTime) {
     if (ss->available()) {
       gpsData = ss->read();
