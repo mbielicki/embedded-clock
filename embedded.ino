@@ -50,6 +50,7 @@ void setup() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("GPS did not work");
+    lcd.clear();
     delay(500);
   }
 
@@ -167,8 +168,5 @@ void showTemp() {
     lcd.print(tempC);
     lcd.print((char)0xdf);
     lcd.print("C");
-  }
-  else {
-    //Serial.println("Error: Could not read temperature data");
   }
 }

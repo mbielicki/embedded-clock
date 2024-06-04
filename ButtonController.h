@@ -6,7 +6,7 @@ class ButtonController {
   int cyclesPerSec;
 
 public:
-  int setPressed, incPressed, decPressed; //number of ticks a button was pressed in a row
+  int setPressed, incPressed, decPressed; //number of cycles a button was pressed in a row
   bool alarmJustCancelled = false;
 
   ButtonController(int setPin, int incPin, int decPin, int cycleTime);

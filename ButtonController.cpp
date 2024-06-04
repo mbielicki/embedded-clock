@@ -13,14 +13,6 @@ void ButtonController::processInput() {
   setPressed = (digitalRead(setPin) == 0) ? setPressed + 1 : 0 ;
   incPressed = (digitalRead(incPin) == 0) ? incPressed + 1 : 0 ;
   decPressed = (digitalRead(decPin) == 0) ? decPressed + 1 : 0 ;
-
-  // if (setPressed + incPressed + decPressed == 0) return;
-  // Serial.print(setPressed);
-  // Serial.print(' ');
-  // Serial.print(incPressed);
-  // Serial.print(' ');
-  // Serial.println(decPressed);
-  // if (stateChanged()) Serial.println("STATE CHANGED");
 }
 
 void ButtonController::begin() {

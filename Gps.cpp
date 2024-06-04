@@ -43,7 +43,7 @@ void Gps::readTimeStr() {
     lcd->print(':');
     if (minutes < 10) lcd->print('0');
     lcd->print(minutes);
-    delay(500);
+    delay(1000);
     lcd->clear();
   }
 }

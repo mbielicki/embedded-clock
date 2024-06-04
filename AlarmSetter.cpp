@@ -105,7 +105,6 @@ public:
     EEPROM.write(ALARM_ADDRESS + 1, alarmMinute);
   }
 
-  // Example function to set alarm time
   void setAlarmTime(int hour, int minute)
   {
     alarmHour = hour;
